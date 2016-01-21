@@ -23,15 +23,12 @@ renderArray() {
   }
 }
 render() {
-    return (
-      <div>
-          <h4>{this.props.activeHashtag} Posts</h4>
-
-          {this.renderArray()}
-
-
-      </div>
-    )
+  return (
+    <div>
+      <h4>{this.props.activeHashtag} Posts</h4>
+      {this.renderArray()}
+    </div>
+  )
 }
 };
 

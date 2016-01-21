@@ -35,7 +35,7 @@ hashtagEndAt(post, hTagStart) {
       if(post.charAt(searchCharAt) == " ") {
         keepSearching = false;
       } else {
-      searchCharAt++;
+        searchCharAt++;
       }
   }
   return searchCharAt
