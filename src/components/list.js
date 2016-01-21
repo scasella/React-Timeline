@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { addHashtag } from '../actions/index';
+import { activeHashtag } from '../actions/index';
 
 class List extends Component {
 constructor(props) {
@@ -10,9 +12,8 @@ constructor(props) {
        };
 }
 render() {
-  console.log(this.props.hashtags)
    return (
-      <div onClick={() => this.handleFirst()} className="list-group">
+      <div className="list-group">
      {this.renderArray(this.props.hashtags)}
     </div>
     );
@@ -21,16 +22,13 @@ renderArray(array) {
   if(array != null) {
   return array.map((tag) => {
   return (
-    <a key={tag} onClick={() => this.handleFirst()} className="list-group-item">{tag}</a>
+    <a key={tag} onClick={() => this.handleClick(tag)} className="list-group-item">{tag}</a>
     );
   });
   }
 }
-handleFirst() {
-  console.log(this.props.hashtags)
-}
-handleSecond() {
-  this.props.activeCategory(this.state.second);
+handleClick(tag) {
+  this.props.activeHashtag(tag)
 }
 };
 function mapStateToProps(state) {
@@ -38,8 +36,8 @@ function mapStateToProps(state) {
     hashtags: state.addHashtag
   };
 }
-/*function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addHashtag }, dispatch);
-}*/
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ activeHashtag }, dispatch);
+}
 
-export default connect(mapStateToProps)(List);
+export default connect(mapStateToProps, mapDispatchToProps)(List);

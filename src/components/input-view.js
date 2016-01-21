@@ -25,18 +25,7 @@ render() {
       <textArea className="form-control" rows="5" onKeyPress={(event) => this.handleKeyPress(event)} onChange={event => this.handleChange(event)} value={this.state.refValue}/>
       <div className="container">
       <br />
-      {/*<div className="btn-group" id="dropdown">
-      <button type="button" className="btn btn-primary" id="drop-b">{this.state.category}</button>
-      <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-      <span className="caret"></span>
-      </button>
-      <ul className="dropdown-menu" role="menu">
-        <li><a onClick={() => this.handleCatChange(1)}>First</a></li>
-        <li><a onClick={() => this.handleCatChange(2)}>Second</a></li>
-      </ul>
-      </div>*/}
       <button type="button" id="submit" className="btn btn-success" onClick={() => this.handleSubmit()}>Submit</button>
-
       </div>
       <br /><br />
       </div>
@@ -50,17 +39,12 @@ handleKeyPress(e) {
     if(e.which == 35) {
       that.recordHashtag = true;
     } else if(e.which == 32){
-      if(that.recordHashtag == true) {
-        that.recordHashtag = false
-        var newUsedHashtags = that.usedHashtags;
-        newUsedHashtags.push(that.recordedHashtag);
-        that.usedHashtags = newUsedHashtags;
-        that.recordedHashtag = "";
+
+    if(that.recordHashtag == true) {
+        that.endRecordingHashtag()
       }
   }
   this.updateHashtag(e)
-  //console.log(that.state.recordedHashtag)
-    //console.log(that.usedHashtags)
 }
 updateHashtag(e) {
   const that = this
@@ -72,19 +56,30 @@ updateHashtag(e) {
     that.recordedHashtag = rHash;
   }
 }
+endRecordingHashtag() {
+  this.recordHashtag = false
+  var newUsedHashtags = this.usedHashtags;
+  newUsedHashtags.push(this.recordedHashtag);
+  this.usedHashtags = newUsedHashtags;
+  this.recordedHashtag = "";
+}
 handleChange(event) {
   this.setState({newValue: event.target.value});
   this.setState({refValue: event.target.value});
 }
 handleSubmit() {
+  const now = new Date();
   const that = this
+  //Check if hashtag is being made
+  if(this.recordHashtag == true) {
+    that.endRecordingHashtag()
+  }
   const array = this.usedHashtags
   for (var i in array) {
       that.props.addHashtag(array[i]);
   }
-
-  that.props.addPost(that.state.newValue);
-
+  const string = this.state.newValue
+  that.props.addPost([string, now]);
   this.setState({newValue: ""});
   this.setState({refValue: ""});
 }

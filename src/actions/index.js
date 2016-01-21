@@ -11,3 +11,9 @@ export function addPost(obj) {
     payload: obj
   };
 }
+export function activeHashtag(obj) {
+  return {
+    type: 'ACTIVE_HASHTAG',
+    payload: obj
+  };
+}
